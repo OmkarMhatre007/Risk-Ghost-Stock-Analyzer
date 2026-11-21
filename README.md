@@ -7,7 +7,7 @@
 
 #### Video Demo: <YOUR_YOUTUBE_OR_LOOM_VIDEO_URL_HERE>
 #### Research Paper: [Read the full academic methodology report (docs/REPORT.md)](docs/REPORT.md)
-
+#### Live App: [Visit App](https://risk-ghost-stock-analyzer-a2gmf7buzk5ms6icvqludo.streamlit.app/)
 ---
 
 ## 1. Project Overview
