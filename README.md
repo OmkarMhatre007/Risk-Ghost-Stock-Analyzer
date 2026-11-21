@@ -197,18 +197,39 @@ $env:RUN_ONLINE_SMOKE="1"; pytest tests/test_smoke.py -v
 RUN_ONLINE_SMOKE=1 pytest tests/test_smoke.py -v
 ```
 
-### 4.5 Streamlit Community Cloud Deployment
+### 4.5 How to Use the Application
 
 > **🚀 The app is live at:** [https://risk-ghost-stock-analyzer-a2gmf7buzk5ms6icvqludo.streamlit.app/](https://risk-ghost-stock-analyzer-a2gmf7buzk5ms6icvqludo.streamlit.app/)
 
-To deploy this application for free on [Streamlit Community Cloud](https://share.streamlit.io):
-1. Push this repository to your GitHub account (`OmkarMhatre007/Risk-Ghost-Stock-Analyzer`).
-2. Sign in to [share.streamlit.io](https://share.streamlit.io) and click **Create app** / **New app**.
-3. Select your repository and specify:
-   * **Repository:** `OmkarMhatre007/Risk-Ghost-Stock-Analyzer`
-   * **Branch:** `main`
-   * **Main file path:** `app.py`
-4. Click **Deploy!** The cloud platform will automatically install dependencies from `requirements.txt` and launch the dark-mode dashboard.
+#### Step 1 — Build Your Portfolio
+- Open the app and go to the **Portfolio Diagnostic** tab.
+- In the sidebar, enter each stock ticker (e.g. `AAPL`, `RELIANCE.NS`, `TSLA`), share quantity, and purchase currency.
+- Click **Add Holding** to add it to your portfolio, or use the **preset buttons** (Tech Giants, Global Mixed FX) to load a sample portfolio instantly.
+
+#### Step 2 — Run the Analysis
+- Once your holdings are added, click **Analyse Portfolio**.
+- The app fetches live price and volume data from Yahoo Finance and computes all risk metrics in real time.
+
+#### Step 3 — Interpret the Risk Dashboard
+- **Capital vs Risk Bar Chart** — Compare your capital weight (%) against your true risk contribution (%). A stock dominating risk far beyond its capital weight is a hidden concentration risk.
+- **Risk Contribution Breakdown** — See each holding's Marginal Risk Contribution (MRC) and Component Risk Contribution (CRC) derived from Euler's theorem.
+- **Liquidity Matrix** — View estimated days-to-exit and expected slippage for each position relative to Average Daily Volume (ADV).
+- **Correlation Heatmap** — Identify which assets move together and amplify portfolio-level risk.
+- **Drawdown History** — Visualise peak-to-trough drawdowns across your portfolio over the last 60 trading days.
+
+#### Step 4 — Monte Carlo Simulation
+- Navigate to the **Monte Carlo** section to simulate 1 000 portfolio value paths over a 60-day horizon.
+- Inspect the fan-chart for best/worst/median outcomes and read the VaR (Value-at-Risk) summary below the chart.
+
+#### Step 5 — Rebalance Suggestions
+- View the **Equal-Risk Rebalancing** table to see suggested target weights that equalise each holding's risk contribution.
+- Compare current vs target allocation and estimated trade sizes.
+
+#### Step 6 — Discover Companies
+- Switch to the **Company Discovery** tab and search any company name or ticker to pull key fundamentals (sector, market cap, P/E, 52-week range) directly from Yahoo Finance.
+
+#### Step 7 — Methodology & Disclosures
+- Visit the **Methodology & Disclosures** tab for a full explanation of the mathematical models, data sources, regulatory disclaimers, and academic references used in the app.
 
 ---
 
