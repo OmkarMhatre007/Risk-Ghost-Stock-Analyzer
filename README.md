@@ -5,7 +5,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Tests Passing](https://img.shields.io/badge/tests-24%20passed-brightgreen.svg)](tests/)
 
-#### Video Demo: <YOUR_YOUTUBE_OR_LOOM_VIDEO_URL_HERE>
+#### Video Demo: Upcoming...
 #### Research Paper: [Read the full academic methodology report (docs/REPORT.md)](docs/REPORT.md)
 #### Live App: [Visit App](https://risk-ghost-stock-analyzer-a2gmf7buzk5ms6icvqludo.streamlit.app/)
 ---
