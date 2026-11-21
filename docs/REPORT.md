@@ -1,6 +1,6 @@
 # Risk Ghost: Exposing Latent Concentration Risk and Market Impact in Portfolio Construction
 
-**Author:** CS50P Student  
+**Author:** Omkar M. Mhatre  
 **Course:** CS50's Introduction to Programming with Python (CS50P Final Project)  
 **Curriculum Alignment:** Lesson 1–2 of Statistics for Machine Learning & Data Science (Covariance, Risk Decomposition, Market Microstructure)  
 
