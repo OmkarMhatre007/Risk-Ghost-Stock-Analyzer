@@ -1,5 +1,7 @@
 # Risk Ghost Stock Analyzer: Exposing Latent Concentration Risk and Market Impact
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 #### Video Demo: <YOUR_YOUTUBE_OR_LOOM_VIDEO_URL_HERE>
 
 ---
@@ -158,3 +160,9 @@ RUN_ONLINE_SMOKE=1 pytest test_smoke.py -v
 - **Data Source:** Market data is fetched online via `yfinance`.
 - **Unofficial Status:** `yfinance` is an unofficial community library and is neither affiliated with nor endorsed by Yahoo Inc.
 - **Redistribution Terms:** Open-source licensing of this software does not grant unrestricted redistribution rights to underlying financial data. Quotes are intended solely for personal research, educational diagnostic analysis, and computer science study.
+
+---
+
+## 6. License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
