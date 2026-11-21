@@ -6,10 +6,16 @@ Normal pytest runs execute completely offline without requiring network access.
 """
 
 import os
+import sys
+from pathlib import Path
 import tempfile
 import warnings
 
 warnings.filterwarnings("ignore")
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 if "MPLCONFIGDIR" not in os.environ:
     default_mpl = r"C:\Users\omkar\AppData\Local\matplotlib"
@@ -30,29 +36,54 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from analytics import (
-    calculate_component_risk_contributions,
-    calculate_market_impact,
-    calculate_max_drawdown,
-    calculate_risk_contribution,
-    evaluate_rebalanced_portfolio,
-    format_days_to_exit,
-    rebalance_to_equal_risk,
-    run_monte_carlo,
-)
-from data_provider import (
-    InstrumentMetadata,
-    TickerNotFoundError,
-    UnsupportedInstrumentError,
-    fetch_fx_history,
-    fetch_historical_prices_and_volumes,
-    get_ticker_metadata,
-    search_company,
-)
-from portfolio_manager import (
-    analyze_portfolio,
-    parse_portfolio_csv,
-)
+try:
+    from src.analytics import (
+        calculate_component_risk_contributions,
+        calculate_market_impact,
+        calculate_max_drawdown,
+        calculate_risk_contribution,
+        evaluate_rebalanced_portfolio,
+        format_days_to_exit,
+        rebalance_to_equal_risk,
+        run_monte_carlo,
+    )
+    from src.data_provider import (
+        InstrumentMetadata,
+        TickerNotFoundError,
+        UnsupportedInstrumentError,
+        fetch_fx_history,
+        fetch_historical_prices_and_volumes,
+        get_ticker_metadata,
+        search_company,
+    )
+    from src.portfolio_manager import (
+        analyze_portfolio,
+        parse_portfolio_csv,
+    )
+except ImportError:
+    from analytics import (
+        calculate_component_risk_contributions,
+        calculate_market_impact,
+        calculate_max_drawdown,
+        calculate_risk_contribution,
+        evaluate_rebalanced_portfolio,
+        format_days_to_exit,
+        rebalance_to_equal_risk,
+        run_monte_carlo,
+    )
+    from data_provider import (
+        InstrumentMetadata,
+        TickerNotFoundError,
+        UnsupportedInstrumentError,
+        fetch_fx_history,
+        fetch_historical_prices_and_volumes,
+        get_ticker_metadata,
+        search_company,
+    )
+    from portfolio_manager import (
+        analyze_portfolio,
+        parse_portfolio_csv,
+    )
 from project import (
     load_portfolio,
 )
@@ -265,7 +296,7 @@ def test_search_company_mocked(mock_search_cls):
 
 
 @patch("yfinance.download")
-@patch("data_provider.get_ticker_metadata")
+@patch("src.data_provider.get_ticker_metadata")
 def test_fetch_market_data_partial_failure(mock_meta, mock_download):
     mock_meta.side_effect = lambda t: InstrumentMetadata(t, t, "NMS", "EQUITY", "USD")
     # Return DataFrame missing TSLA
@@ -288,8 +319,8 @@ def test_fetch_fx_history_quote_direction(mock_download):
     assert np.allclose(fx_series.values, 1.10)
 
 
-@patch("portfolio_manager.fetch_historical_prices_and_volumes")
-@patch("portfolio_manager.fetch_fx_history")
+@patch("src.portfolio_manager.fetch_historical_prices_and_volumes")
+@patch("src.portfolio_manager.fetch_fx_history")
 def test_analyze_portfolio_end_to_end(mock_fx, mock_fetch):
     dates = pd.date_range("2026-01-01", periods=30, freq="B")
     close_df = pd.DataFrame({

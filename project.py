@@ -6,6 +6,7 @@ homogeneous risk decomposition and the Almgren-Chriss square-root impact heurist
 Uses online market data via yfinance without hardcoded universe restrictions or offline CSV fallbacks.
 """
 
+from pathlib import Path
 import sys
 import warnings
 
@@ -13,13 +14,20 @@ import pandas as pd
 
 warnings.filterwarnings("ignore")
 
-from data_provider import (
-    fetch_historical_prices_and_volumes,
-)
-from portfolio_manager import (
-    analyze_portfolio,
-    parse_portfolio_csv,
-)
+# Ensure repository root is in sys.path
+ROOT_DIR = Path(__file__).resolve().parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+try:
+    from src.data_provider import fetch_historical_prices_and_volumes
+    from src.portfolio_manager import analyze_portfolio, parse_portfolio_csv
+except ImportError:
+    from data_provider import fetch_historical_prices_and_volumes
+    from portfolio_manager import analyze_portfolio, parse_portfolio_csv
+
+DEFAULT_DATA_DIR = ROOT_DIR / "data"
+DEFAULT_PORTFOLIO_PATH = DEFAULT_DATA_DIR / "portfolio.csv"
 
 # Friendly convenience aliases for common names (not an allowlist or restriction)
 CONVENIENCE_ALIASES = {
@@ -42,7 +50,7 @@ CONVENIENCE_ALIASES = {
 STOCK_MAP = CONVENIENCE_ALIASES
 
 
-def load_portfolio(filepath: str = "portfolio.csv") -> tuple[list[str], list[str], list[float]]:
+def load_portfolio(filepath: str | Path = None) -> tuple[list[str], list[str], list[float]]:
     """
     Loads portfolio holdings from CSV.
     Accepts direct tickers or common company names.
@@ -52,7 +60,14 @@ def load_portfolio(filepath: str = "portfolio.csv") -> tuple[list[str], list[str
         tickers: List of resolved Yahoo Finance ticker symbols
         shares: List of share quantities
     """
-    raw_holdings = parse_portfolio_csv(filepath)
+    if filepath is None:
+        target_path = DEFAULT_PORTFOLIO_PATH if DEFAULT_PORTFOLIO_PATH.exists() else Path("portfolio.csv")
+    else:
+        target_path = Path(filepath)
+        if not target_path.exists() and (DEFAULT_DATA_DIR / target_path.name).exists():
+            target_path = DEFAULT_DATA_DIR / target_path.name
+
+    raw_holdings = parse_portfolio_csv(str(target_path))
     stock_names: list[str] = []
     tickers: list[str] = []
     shares: list[float] = []
@@ -103,7 +118,10 @@ def main():
         print("  (Note: Example tickers are illustrative and do not form a restricted allowlist)\n")
         sys.exit(0)
 
-    filepath = sys.argv[1] if len(sys.argv) > 1 else "portfolio.csv"
+    default_file = str(DEFAULT_PORTFOLIO_PATH if DEFAULT_PORTFOLIO_PATH.exists() else "portfolio.csv")
+    filepath = sys.argv[1] if len(sys.argv) > 1 else default_file
+    if not Path(filepath).exists() and (DEFAULT_DATA_DIR / Path(filepath).name).exists():
+        filepath = str(DEFAULT_DATA_DIR / Path(filepath).name)
     base_currency = sys.argv[2] if len(sys.argv) > 2 else "USD"
 
     print("\n" + "=" * 72)

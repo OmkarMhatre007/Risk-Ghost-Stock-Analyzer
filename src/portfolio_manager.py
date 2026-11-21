@@ -15,24 +15,44 @@ from typing import Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 
-from data_provider import (
-    InstrumentMetadata,
-    fetch_historical_prices_and_volumes,
-    fetch_fx_history,
-    MarketDataError,
-    TickerNotFoundError,
-    UnsupportedInstrumentError,
-)
-from analytics import (
-    calculate_risk_contribution,
-    calculate_component_risk_contributions,
-    calculate_market_impact,
-    rebalance_to_equal_risk,
-    evaluate_rebalanced_portfolio,
-    calculate_max_drawdown,
-    calculate_portfolio_timeseries,
-    run_monte_carlo,
-)
+try:
+    from src.data_provider import (
+        InstrumentMetadata,
+        fetch_historical_prices_and_volumes,
+        fetch_fx_history,
+        MarketDataError,
+        TickerNotFoundError,
+        UnsupportedInstrumentError,
+    )
+    from src.analytics import (
+        calculate_risk_contribution,
+        calculate_component_risk_contributions,
+        calculate_market_impact,
+        rebalance_to_equal_risk,
+        evaluate_rebalanced_portfolio,
+        calculate_max_drawdown,
+        calculate_portfolio_timeseries,
+        run_monte_carlo,
+    )
+except ImportError:
+    from data_provider import (
+        InstrumentMetadata,
+        fetch_historical_prices_and_volumes,
+        fetch_fx_history,
+        MarketDataError,
+        TickerNotFoundError,
+        UnsupportedInstrumentError,
+    )
+    from analytics import (
+        calculate_risk_contribution,
+        calculate_component_risk_contributions,
+        calculate_market_impact,
+        rebalance_to_equal_risk,
+        evaluate_rebalanced_portfolio,
+        calculate_max_drawdown,
+        calculate_portfolio_timeseries,
+        run_monte_carlo,
+    )
 
 
 @dataclass

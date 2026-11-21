@@ -32,43 +32,86 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+from pathlib import Path
+import sys
+
+# Ensure repository root is in sys.path for Streamlit Cloud deployment
+ROOT_DIR = Path(__file__).resolve().parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 import numpy as np
 import pandas as pd
 import streamlit as st
 
-from analytics import (
-    calculate_component_risk_contributions,
-    calculate_market_impact,
-    calculate_max_drawdown,
-    calculate_portfolio_timeseries,
-    calculate_risk_contribution,
-    evaluate_rebalanced_portfolio,
-    format_days_to_exit,
-    rebalance_to_equal_risk,
-    run_monte_carlo,
-)
-from charts import (
-    plot_capital_vs_risk,
-    plot_correlation_heatmap,
-    plot_drawdown_history,
-    plot_liquidity_matrix,
-    plot_monte_carlo,
-)
-from data_provider import (
-    FXConversionError,
-    InsufficientDataError,
-    MarketDataError,
-    TickerNotFoundError,
-    UnsupportedInstrumentError,
-    fetch_fx_history,
-    fetch_historical_prices_and_volumes,
-    search_company,
-)
-from portfolio_manager import (
-    HoldingItem,
-    PortfolioAnalysisResult,
-    parse_portfolio_csv,
-)
+try:
+    from src.analytics import (
+        calculate_component_risk_contributions,
+        calculate_market_impact,
+        calculate_max_drawdown,
+        calculate_portfolio_timeseries,
+        calculate_risk_contribution,
+        evaluate_rebalanced_portfolio,
+        format_days_to_exit,
+        rebalance_to_equal_risk,
+        run_monte_carlo,
+    )
+    from src.charts import (
+        plot_capital_vs_risk,
+        plot_correlation_heatmap,
+        plot_drawdown_history,
+        plot_liquidity_matrix,
+        plot_monte_carlo,
+    )
+    from src.data_provider import (
+        FXConversionError,
+        InsufficientDataError,
+        MarketDataError,
+        TickerNotFoundError,
+        UnsupportedInstrumentError,
+        fetch_fx_history,
+        fetch_historical_prices_and_volumes,
+        search_company,
+    )
+    from src.portfolio_manager import (
+        HoldingItem,
+        PortfolioAnalysisResult,
+        parse_portfolio_csv,
+    )
+except ImportError:
+    from analytics import (
+        calculate_component_risk_contributions,
+        calculate_market_impact,
+        calculate_max_drawdown,
+        calculate_portfolio_timeseries,
+        calculate_risk_contribution,
+        evaluate_rebalanced_portfolio,
+        format_days_to_exit,
+        rebalance_to_equal_risk,
+        run_monte_carlo,
+    )
+    from charts import (
+        plot_capital_vs_risk,
+        plot_correlation_heatmap,
+        plot_drawdown_history,
+        plot_liquidity_matrix,
+        plot_monte_carlo,
+    )
+    from data_provider import (
+        FXConversionError,
+        InsufficientDataError,
+        MarketDataError,
+        TickerNotFoundError,
+        UnsupportedInstrumentError,
+        fetch_fx_history,
+        fetch_historical_prices_and_volumes,
+        search_company,
+    )
+    from portfolio_manager import (
+        HoldingItem,
+        PortfolioAnalysisResult,
+        parse_portfolio_csv,
+    )
 
 # -----------------------------------------------------------------------------
 # Streamlit Page Configuration

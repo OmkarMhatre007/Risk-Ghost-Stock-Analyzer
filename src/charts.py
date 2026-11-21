@@ -37,7 +37,10 @@ from matplotlib import ticker
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.figure import Figure
 
-from portfolio_manager import HoldingItem
+try:
+    from src.portfolio_manager import HoldingItem
+except ImportError:
+    from portfolio_manager import HoldingItem
 
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)

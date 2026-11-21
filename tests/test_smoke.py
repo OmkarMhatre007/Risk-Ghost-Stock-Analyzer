@@ -7,8 +7,18 @@ via `--online-smoke` flag or environment variable `RUN_ONLINE_SMOKE=1`.
 """
 
 import os
+import sys
+from pathlib import Path
 import pytest
-from data_provider import get_ticker_metadata, fetch_historical_prices_and_volumes, search_company
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+try:
+    from src.data_provider import get_ticker_metadata, fetch_historical_prices_and_volumes, search_company
+except ImportError:
+    from data_provider import get_ticker_metadata, fetch_historical_prices_and_volumes, search_company
 
 
 @pytest.mark.skipif(

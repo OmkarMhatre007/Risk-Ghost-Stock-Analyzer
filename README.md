@@ -1,8 +1,12 @@
 # Risk Ghost Stock Analyzer: Exposing Latent Concentration Risk and Market Impact
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Tests Passing](https://img.shields.io/badge/tests-24%20passed-brightgreen.svg)](tests/)
 
 #### Video Demo: <YOUR_YOUTUBE_OR_LOOM_VIDEO_URL_HERE>
+#### Research Paper: [Read the full academic methodology report (docs/REPORT.md)](docs/REPORT.md)
 
 ---
 
@@ -49,6 +53,35 @@ Retail portfolio dashboards typically show only **Weight %** (capital allocation
   - Historical drawdown trajectories.
   - Days-to-Exit vs. Slippage liquidity matrix.
   - Covariance-aware Monte Carlo fan charts (5th, 25th, 50th, 75th, 95th percentiles).
+
+### 2.5 Clean Modular Architecture
+```
+Risk-Ghost-Stock-Analyzer/
+├── app.py                      # Main Streamlit web application entry point
+├── project.py                  # CLI diagnostic entry point
+├── requirements.txt            # Python dependencies for local & cloud runtime
+├── pytest.ini                  # Pytest configuration
+├── LICENSE                     # Full MIT License text
+├── README.md                   # Project documentation & usage guide
+├── .gitignore                  # Git tracking exclusion rules
+├── .env.example                # Sample environment configuration
+├── .streamlit/
+│   └── config.toml             # Streamlit dark theme configuration
+├── data/
+│   └── portfolio.csv           # Default portfolio asset holdings
+├── docs/
+│   └── REPORT.md               # Detailed academic report & mathematical research paper
+├── src/
+│   ├── __init__.py             # Package initializer & public API
+│   ├── analytics.py            # Euler decomposition, liquidity, Monte Carlo engine
+│   ├── charts.py               # Apple-inspired Matplotlib dark visualizations
+│   ├── data_provider.py        # Online Yahoo Finance provider & FX converter
+│   └── portfolio_manager.py    # Multi-currency normalization & portfolio orchestrator
+└── tests/
+    ├── __init__.py             # Test package initializer
+    ├── test_project.py         # Comprehensive unit tests (24 tests, offline fixtures)
+    └── test_smoke.py           # Optional live network smoke tests
+```
 
 ---
 
@@ -140,29 +173,39 @@ streamlit run app.py
 ```
 
 ### 4.3 Command-Line Interface (CLI)
-Analyze the default `portfolio.csv`:
+Analyze the default portfolio (`data/portfolio.csv`):
 ```bash
 python project.py
 ```
 Or specify a custom CSV file and base reporting currency:
 ```bash
-python project.py my_portfolio.csv EUR
+python project.py data/portfolio.csv EUR
 ```
 
 ### 4.4 Automated Testing
 Run the offline automated test suite (24 tests, synthetic NumPy/Pandas fixtures, 0 network dependencies):
 ```bash
-pytest test_project.py -v
+pytest -v
 ```
 
 To run the optional live internet smoke test against Yahoo Finance:
 ```bash
 # PowerShell
-$env:RUN_ONLINE_SMOKE="1"; pytest test_smoke.py -v
+$env:RUN_ONLINE_SMOKE="1"; pytest tests/test_smoke.py -v
 
 # Bash
-RUN_ONLINE_SMOKE=1 pytest test_smoke.py -v
+RUN_ONLINE_SMOKE=1 pytest tests/test_smoke.py -v
 ```
+
+### 4.5 Streamlit Community Cloud Deployment
+To deploy this application for free on [Streamlit Community Cloud](https://share.streamlit.io):
+1. Push this repository to your GitHub account (`OmkarMhatre007/Risk-Ghost-Stock-Analyzer`).
+2. Sign in to [share.streamlit.io](https://share.streamlit.io) and click **Create app** / **New app**.
+3. Select your repository and specify:
+   * **Repository:** `OmkarMhatre007/Risk-Ghost-Stock-Analyzer`
+   * **Branch:** `main`
+   * **Main file path:** `app.py`
+4. Click **Deploy!** The cloud platform will automatically install dependencies from `requirements.txt` and launch the dark-mode dashboard.
 
 ---
 
