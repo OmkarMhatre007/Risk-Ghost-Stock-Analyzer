@@ -53,29 +53,62 @@ Retail portfolio dashboards typically show only **Weight %** (capital allocation
 ## 3. Mathematical Methodology
 
 ### 3.1 Euler Homogeneous Risk Decomposition
-Portfolio volatility $\sigma_p = \sqrt{W^T \Sigma W}$ is homogeneous of degree 1.
-$$\text{MRC} = \frac{\Sigma W}{\sigma_p}$$
-$$\text{CRC}_i = w_i \cdot \text{MRC}_i = \frac{w_i (\Sigma W)_i}{\sigma_p}, \quad \sum_{i=1}^n \text{CRC}_i = \sigma_p$$
-$$RC_{\%, i} = \frac{\text{CRC}_i}{\sigma_p} \times 100\% = \frac{w_i (\Sigma W)_i}{W^T \Sigma W} \times 100\%, \quad \sum_{i=1}^n RC_{\%, i} = 100\%$$
+
+Portfolio volatility $\sigma_p = \sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}$ is mathematically homogeneous of degree 1.
+
+Euler's Theorem guarantees that the sum of component risk contributions equals total portfolio volatility:
+
+$$
+\text{MRC}_i = \frac{(\mathbf{\Sigma} \mathbf{w})_i}{\sigma_p}
+$$
+
+$$
+\text{CRC}_i = w_i \cdot \text{MRC}_i = \frac{w_i (\mathbf{\Sigma} \mathbf{w})_i}{\sigma_p}, \quad \sum_{i=1}^n \text{CRC}_i = \sigma_p
+$$
+
+$$
+\text{RC}_i(\%) = \frac{\text{CRC}_i}{\sigma_p} \times 100\% = \frac{w_i (\mathbf{\Sigma} \mathbf{w})_i}{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}} \times 100\%, \quad \sum_{i=1}^n \text{RC}_i(\%) = 100\%
+$$
 
 ### 3.2 Almgren-Chriss Square-Root Liquidity Model
-$$\text{Days to Exit} = \frac{\text{Shares}}{0.20 \times \text{ADV}}$$
-$$\text{Expected Slippage \%} = 0.05\% + 0.5 \times \sigma_{\text{daily}} \times \sqrt{\frac{\text{Shares}}{\text{ADV}}}$$
+
+$$
+\text{Days to Exit} = \frac{\text{Shares}}{0.20 \times \text{ADV}}
+$$
+
+$$
+\text{Expected Slippage (\%)} = 0.05\% + 0.5 \times \sigma_{\text{daily}} \times \sqrt{\frac{\text{Shares}}{\text{ADV}}}
+$$
+
 *Note: Preserves actual fractional trading days (e.g. `< 0.01 d`). Slippage is an illustrative heuristic estimate (incorporating a 0.05% retail spread baseline), not a guaranteed broker execution quote.*
 
 ### 3.3 Illustrative Bounded Risk-Balancing Adjustment
-- Assets acting as hedges ($RC_i \le 0$) maintain neutral scaling ($1.0\times$).
-- Modest risk contributors ($0 < RC_i < 1\%$) are capped at $1.5\times$.
-- High risk contributors are dampened using a square-root scaling ratio: $\text{multiplier}_i = \text{clip}\left(\sqrt{\frac{\text{Target } RC}{RC_i}}, 0.5, 2.0\right)$.
-- Position constraints are iteratively projected onto $[w_{\min}=1\%, w_{\max}=30\%]$ ensuring $\sum_i w_i = 100\%$.
-- Recalculates and displays resulting post-tilt portfolio volatility and risk contributions.
+
+* Assets acting as hedges ($\text{RC}_i \le 0$) maintain neutral scaling ($1.0\times$).
+* Modest risk contributors ($0 < \text{RC}_i < 1\%$) are capped at $1.5\times$.
+* High risk contributors are dampened using a square-root scaling ratio:
+
+$$
+\text{multiplier}_i = \text{clip}\left(\sqrt{\frac{\text{Target RC}}{\text{RC}_i}}, 0.5, 2.0\right)
+$$
+
+* Position constraints are iteratively projected onto $[w_{\min}=1\%, w_{\max}=30\%]$ ensuring $\sum_{i=1}^n w_i = 100\%$.
+* Recalculates and displays resulting post-tilt portfolio volatility and risk contributions.
+
 *Note: This is an illustrative heuristic adjustment toward risk parity, not an exact non-linear optimizer.*
 
 ### 3.4 Maximum Drawdown
-$$\text{MDD} = \min_{t} \left( \frac{P_t - \max_{0 \le \tau \le t} P_\tau}{\max_{0 \le \tau \le t} P_\tau} \right) \times 100\%$$
+
+$$
+\text{MDD} = \min_{t} \left( \frac{P_t - \max_{0 \le \tau \le t} P_\tau}{\max_{0 \le \tau \le t} P_\tau} \right) \times 100\%
+$$
 
 ### 3.5 Covariance-Aware Monte Carlo Simulation
-$$R_{\text{sim}} = \mu + Z L^T, \quad \Sigma_{\text{PSD}} = V \Lambda_{\text{PSD}} V^T = L L^T, \quad Z \sim \mathcal{N}(0, I)$$
+
+$$
+R_{\text{sim}} = \mu + Z L^T, \quad \mathbf{\Sigma}_{\text{PSD}} = V \Lambda_{\text{PSD}} V^T = L L^T, \quad Z \sim \mathcal{N}(0, I)
+$$
+
 Uses eigenvalue spectral clipping ($\max(\lambda_i, 10^{-8})$) to guarantee positive semi-definite covariance, ensuring robust Cholesky decomposition across all asset combinations over 60 trading days.
 
 ---
