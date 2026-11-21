@@ -703,9 +703,12 @@ col_nav_1, col_nav_2 = st.columns([1, 2])
 with col_nav_1:
     st.markdown(
         """
-        <div style="display:flex; align-items:center; gap:10px; padding-top:4px;">
-            <span style="font-size:1.5rem; color:#2997ff; font-weight:800;">◈</span>
-            <span style="font-size:1.35rem; font-weight:800; letter-spacing:-0.03em; color:#ffffff;">Risk Ghost Stock Analyzer</span>
+        <div style="display:flex; flex-direction:column; gap:2px; padding-top:4px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:1.5rem; color:#2997ff; font-weight:800;">◈</span>
+                <span style="font-size:1.35rem; font-weight:800; letter-spacing:-0.03em; color:#ffffff;">Risk Ghost Stock Analyzer</span>
+            </div>
+            <span style="font-size:0.75rem; color:#86868b; font-weight:400; padding-left:36px; letter-spacing:0.02em;">Created by Omkar M. Mhatre</span>
         </div>
         """,
         unsafe_allow_html=True,
@@ -824,7 +827,7 @@ if selected_view == "Portfolio Diagnostic":
             edited_df = st.data_editor(
                 holdings_df,
                 num_rows="dynamic",
-                width="stretch",
+                use_container_width=True,
                 column_config={
                     "ticker": st.column_config.TextColumn("Ticker Symbol", help="Yahoo Finance symbol"),
                     "shares": st.column_config.NumberColumn("Shares / Units", min_value=0.01, step=1.0),
@@ -844,7 +847,7 @@ if selected_view == "Portfolio Diagnostic":
             st.markdown("##### Quick Portfolio Presets")
             col_preset_1, col_preset_2 = st.columns(2)
             with col_preset_1:
-                if st.button("Tech Giants (US)", key="preset_tech", width="stretch"):
+                if st.button("Tech Giants (US)", key="preset_tech", use_container_width=True):
                     st.session_state.holdings_list = [
                         {"ticker": "NVDA", "shares": 80.0},
                         {"ticker": "TSLA", "shares": 100.0},
@@ -856,7 +859,7 @@ if selected_view == "Portfolio Diagnostic":
                     st.session_state["imported_success_msg"] = None
                     st.rerun()
             with col_preset_2:
-                if st.button("Global Mixed FX", key="preset_global", width="stretch"):
+                if st.button("Global Mixed FX", key="preset_global", use_container_width=True):
                     st.session_state.holdings_list = [
                         {"ticker": "AAPL", "shares": 100.0},
                         {"ticker": "VOD.L", "shares": 800.0},
@@ -1220,7 +1223,7 @@ if selected_view == "Portfolio Diagnostic":
                     "Diagnostic Status": h.risk_flag,
                 })
 
-            st.dataframe(pd.DataFrame(summary_rows), width="stretch")
+            st.dataframe(pd.DataFrame(summary_rows), use_container_width=True)
 
             # CSV Download
             csv_data = pd.DataFrame(summary_rows).to_csv(index=False)
@@ -1263,7 +1266,7 @@ if selected_view == "Portfolio Diagnostic":
                         "Target Adjustment": f"{delta:+.1f}%",
                         "Projected RC": f"{h.projected_risk_contribution_pct:.1f}%",
                     })
-                st.dataframe(pd.DataFrame(rebal_display), width="stretch")
+                st.dataframe(pd.DataFrame(rebal_display), use_container_width=True)
 
             # -----------------------------------------------------------------
             # Covariance-Aware Monte Carlo Scenarios
@@ -1345,7 +1348,7 @@ elif selected_view == "Company Discovery":
     with col_q2:
         st.write("")
         st.write("")
-        search_clicked = st.button("Search Yahoo Finance", width="stretch")
+        search_clicked = st.button("Search Yahoo Finance", use_container_width=True)
 
     if search_clicked and query.strip():
         with st.spinner(f"Searching for '{query.strip()}'..."):

@@ -1,7 +1,7 @@
 # Risk Ghost Stock Analyzer: Exposing Latent Concentration Risk and Market Impact
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io)
+[![Live App](https://img.shields.io/badge/Live%20App-Streamlit%20Cloud-FF4B4B?logo=streamlit)](https://risk-ghost-stock-analyzer-a2gmf7buzk5ms6icvqludo.streamlit.app/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Tests Passing](https://img.shields.io/badge/tests-24%20passed-brightgreen.svg)](tests/)
 
@@ -198,6 +198,9 @@ RUN_ONLINE_SMOKE=1 pytest tests/test_smoke.py -v
 ```
 
 ### 4.5 Streamlit Community Cloud Deployment
+
+> **🚀 The app is live at:** [https://risk-ghost-stock-analyzer-a2gmf7buzk5ms6icvqludo.streamlit.app/](https://risk-ghost-stock-analyzer-a2gmf7buzk5ms6icvqludo.streamlit.app/)
+
 To deploy this application for free on [Streamlit Community Cloud](https://share.streamlit.io):
 1. Push this repository to your GitHub account (`OmkarMhatre007/Risk-Ghost-Stock-Analyzer`).
 2. Sign in to [share.streamlit.io](https://share.streamlit.io) and click **Create app** / **New app**.
